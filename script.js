@@ -40,20 +40,184 @@ const scoreText = document.querySelector('.scoreText');
 
 // start button intarctivety--------------------------------------------------------
 startButton.addEventListener('click', () => {
+    nextquestion()
+    startQuizTimer();
     hidden_sart_page.classList.add('active');
     startquiz.classList.remove('active');
     fullTimer.classList.add('active');
     previousButton.classList.remove('active');
     
- startQuizTimer();
 
 
 });
 
+
+
+
+selectOptions();
+
+
+
+
+
+
+//==========================================
+ 
+nextquestionbtn.addEventListener('click', () => {
+
+     if (selectAnswer === "" && !userAnswers[questionIndex]) {
+        alert("Please select an option!");
+        return;
+    }
+
+    
+    if(selectAnswer !== "") {
+        userAnswers[questionIndex] = selectAnswer;
+    }
+    if (selectAnswer == quiz[questionIndex].answer) {
+        score++;
+    }
+
+    if (questionIndex < quiz.length - 1) {
+
+        questionIndex++;
+        questionNumber++;
+        nextquestion();
+        displayPreviousBtn();
+    }
+    
+
+    else {
+        fullTimer.classList.remove('active');
+        quiz_result_page.classList.add('active');
+        startquiz.classList.add('active');
+        clearInterval(fullTimer);
+        showScore.innerText = `your score ${score} out of ${quiz.length}`;
+       circle.style.background = `conic-gradient(
+        #f7d000 0deg ${score / totalQuestions * 360}deg,
+        #e0e0e0 ${score / totalQuestions * 360}deg 360deg
+)`;
+ let percent = Math.round((score / totalQuestions) * 100);
+    scoreText.innerText = `${percent}%`;
+        questionIndex = 0;
+        backbuttons();
+        toStartPage();
+       stopQuizTimer();
+        
+        
+    }
+
+
+})
+let userAnswers = [];
+previousButton.addEventListener('click', () => {
+
+    if (questionIndex > 0) {
+        questionIndex--;
+        questionNumber--;
+
+        nextquestion();  // show previous question
+
+        // restore saved answer
+        let saved = userAnswers[questionIndex];
+        if (saved) {
+            selectAnswer = saved;
+            highlightSelectedOption();
+        }
+    }
+
+    if (questionIndex === 0) {
+        previousButton.classList.remove('active');
+    }
+});
+
+// show display Previous  button
+
+
+function nextquestion() {
+
+    questionask.innerHTML = quiz[questionIndex].question;
+    options1.innerText = quiz[questionIndex].options[0];
+    options2.innerText = quiz[questionIndex].options[1];
+    options3.innerText = quiz[questionIndex].options[2];
+    options4.innerText = quiz[questionIndex].options[3];
+
+    showQuestionNumber.innerText = `Question ${questionIndex + 1} of ${totalQuestions}`;
+
+    selectAnswer = '';
+     document.querySelectorAll('.option').forEach(opt => {
+        opt.style.background = '';
+        opt.style.pointerEvents = "auto"; 
+
+     });
+
+}
+function displayPreviousBtn() {
+
+
+    if (questionIndex == quiz.length - 1) {
+        nextquestionbtn.innerText = 'Submit';
+        
+
+    }
+    if (questionIndex > 0) {
+        previousButton.classList.add('active');
+    }
+
+
+
+}
+
+
+function selectOptions() {
+    const allOptions = document.querySelectorAll('.option');
+
+
+    allOptions.forEach((opt) => {
+        opt.addEventListener('click', () => {
+            selectAnswer = opt.innerText;
+            nextquestionbtn.classList.add('active');
+            userAnswers[questionIndex] =selectAnswer;
+
+
+        });
+    });
+}
+
+function backbuttons() {
+    restartButton.addEventListener('click', () => {
+        questionIndex = 0;
+         score=0;
+          nextquestion();
+        startquiz.classList.remove('active');
+        quiz_result_page.classList.remove('active');
+        nextquestionbtn.innerText = 'Next';
+        previousButton.classList.remove('active');
+        nextquestionbtn.classList.remove('active');
+        showQuestionNumber.innerText = `Question ${questionIndex + 1} of ${totalQuestions}`;
+        timer_over.classList.remove('active');
+        fullTimer.classList.add('active');
+        startQuizTimer();
+       
+    })
+}
+function toStartPage() {
+    
+    homeButton.addEventListener('click', () => {
+         questionIndex = 0;
+         nextquestion();
+        timer_over.classList.remove('active');
+         score=0;
+          hidden_sart_page.classList.remove('active');
+         quiz_result_page.classList.remove('active');
+         timer_over.classList.remove('active');
+         fullTimer.classList.remove('active');
+         
+    })
+}
 function startQuizTimer() {
     clearInterval(countdown);     
-    fullTime = 5 * 60;           
-
+    fullTime = 5 * 60;         
     countdown = setInterval(() => {
 
         let minutes = Math.floor(fullTime / 60);
@@ -89,148 +253,18 @@ function startQuizTimer() {
 
     }, 1000);
 }
-
-// startQuizTimer()
-
-function backbuttons() {
-    restartButton.addEventListener('click', () => {
-        questionIndex = 0;
-         score=0;
-          nextquestion();
-        startquiz.classList.remove('active');
-        quiz_result_page.classList.remove('active');
-        nextquestionbtn.innerText = 'Next';
-        previousButton.classList.remove('active');
-        nextquestionbtn.classList.remove('active');
-        showQuestionNumber.innerText = `Question ${questionIndex + 1} of ${totalQuestions}`;
-        timer_over.classList.remove('active');
-        fullTimer.classList.add('active');
-        startQuizTimer();
-       
-    })
-}
-function toStartPage() {
-    
-    homeButton.addEventListener('click', () => {
-         questionIndex = 0;
-         nextquestion();
-        timer_over.classList.remove('active');
-         score=0;
-          hidden_sart_page.classList.remove('active');
-         quiz_result_page.classList.remove('active');
-         timer_over.classList.remove('active');
-         fullTimer.classList.remove('active');
-         
-    })
-}
-
-//==========================================
- 
-nextquestionbtn.addEventListener('click', () => {
-
-    if (selectAnswer === "") {
-        alert("Please select an option!");
-        return;
-
-    }
-    if (selectAnswer == quiz[questionIndex].answer) {
-        score++;
-    }
-
-    if (questionIndex < quiz.length - 1) {
-
-        questionIndex++;
-        questionNumber++;
-        nextquestion();
-        displayPreviousBtn();
-    }
-    
-
-    else {
-        // timer_over.classList.a('active')
-        quiz_result_page.classList.add('active');
-        startquiz.classList.add('active');
-        clearInterval(fullTimer);
-        showScore.innerText = `your score ${score} out of ${quiz.length}`;
-       circle.style.background = `conic-gradient(
-        #f7d000 0deg ${score / totalQuestions * 360}deg,
-        #e0e0e0 ${score / totalQuestions * 360}deg 360deg
-)`;
- let percent = Math.round((score / totalQuestions) * 100);
-    scoreText.innerText = `${percent}%`;
-        questionIndex = 0;
-        backbuttons();
-        toStartPage();
-       stopQuizTimer();
-        
-        
-    }
-
-
-})
 function stopQuizTimer() {
     clearInterval(countdown);
     fullTimer.innerText = "0:00";
     
 }
-previousButton.addEventListener('click', () => {
-    if (questionIndex > 0) {
-
-        questionIndex--;
-        questionNumber--;
-        nextquestion();
-
-
-
-    }
-    if (questionIndex === 0) {
-        previousButton.classList.remove('active');
-    }
-})
-// show display Previous  button
-function displayPreviousBtn() {
-
-
-    if (questionIndex == quiz.length - 1) {
-        nextquestionbtn.innerText = 'Submit';
-    }
-    if (questionIndex > 0) {
-        previousButton.classList.add('active');
-    }
-
-
-
-}
-
-function nextquestion() {
-
-    questionask.innerHTML = quiz[questionIndex].question;
-    options1.innerText = quiz[questionIndex].options[0];
-    options2.innerText = quiz[questionIndex].options[1];
-    options3.innerText = quiz[questionIndex].options[2];
-    options4.innerText = quiz[questionIndex].options[3];
-
-    showQuestionNumber.innerText = `Question ${questionIndex + 1} of ${totalQuestions}`;
-
-    selectAnswer = '';
-
-
-
-}
-function selectOptions() {
-    const allOptions = document.querySelectorAll('.option');
-
-
-    allOptions.forEach((opt) => {
-        opt.addEventListener('click', () => {
-            selectAnswer = opt.innerText;
-            nextquestionbtn.classList.add('active');
-
-
-        });
+function highlightSelectedOption() {
+    document.querySelectorAll('.option').forEach(opt => {
+        opt.style.background =
+            (opt.innerText === selectAnswer) ? "red" : "";
     });
 }
-selectOptions();
+
 
 
 
