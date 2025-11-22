@@ -65,50 +65,34 @@ selectOptions();
  
 nextquestionbtn.addEventListener('click', () => {
 
-     if (selectAnswer === "" && !userAnswers[questionIndex]) {
+    // alert if no answer selected AND no saved answer
+    if (selectAnswer === "" && !userAnswers[questionIndex]) {
         alert("Please select an option!");
         return;
     }
 
-    
-    if(selectAnswer !== "") {
+    // save answer if user clicked one
+    if (selectAnswer !== "") {
+        // Only increase score if first time answering this question
+        if (!userAnswers[questionIndex] && selectAnswer === quiz[questionIndex].answer) {
+            score++;
+        }
+
         userAnswers[questionIndex] = selectAnswer;
     }
-    if (selectAnswer == quiz[questionIndex].answer) {
-        score++;
-    }
 
+    // next question or finish
     if (questionIndex < quiz.length - 1) {
-
         questionIndex++;
         questionNumber++;
         nextquestion();
         displayPreviousBtn();
-    }
-    
-
-    else {
-        fullTimer.classList.remove('active');
-        quiz_result_page.classList.add('active');
-        startquiz.classList.add('active');
-        clearInterval(fullTimer);
-        showScore.innerText = `your score ${score} out of ${quiz.length}`;
-       circle.style.background = `conic-gradient(
-        #f7d000 0deg ${score / totalQuestions * 360}deg,
-        #e0e0e0 ${score / totalQuestions * 360}deg 360deg
-)`;
- let percent = Math.round((score / totalQuestions) * 100);
-    scoreText.innerText = `${percent}%`;
-        questionIndex = 0;
-        backbuttons();
-        toStartPage();
-       stopQuizTimer();
-        
-        
+    } else {
+        showResult(); // your function to display results
     }
 
+});
 
-})
 let userAnswers = [];
 previousButton.addEventListener('click', () => {
 
@@ -143,13 +127,19 @@ function nextquestion() {
     options4.innerText = quiz[questionIndex].options[3];
 
     showQuestionNumber.innerText = `Question ${questionIndex + 1} of ${totalQuestions}`;
-
-    selectAnswer = '';
-     document.querySelectorAll('.option').forEach(opt => {
+  document.querySelectorAll('.option').forEach(opt => {
         opt.style.background = '';
-        opt.style.pointerEvents = "auto"; 
+        opt.style.pointerEvents = "auto";
+    });
 
-     });
+    // restore saved answer
+    if (userAnswers[questionIndex]) {
+        selectAnswer = userAnswers[questionIndex];
+        highlightSelectedOption();
+    } else {
+        selectAnswer = ''; // only reset if not answered yet
+    }
+    
 
 }
 function displayPreviousBtn() {
@@ -188,6 +178,10 @@ function backbuttons() {
     restartButton.addEventListener('click', () => {
         questionIndex = 0;
          score=0;
+         selectAnswer = '';
+        userAnswers = [];
+         selectAnswer = '';
+        userAnswers = [];
           nextquestion();
         startquiz.classList.remove('active');
         quiz_result_page.classList.remove('active');
@@ -215,6 +209,24 @@ function toStartPage() {
          
     })
 }
+function showResult(){
+    fullTimer.classList.remove('active');
+        quiz_result_page.classList.add('active');
+        startquiz.classList.add('active');
+        clearInterval(fullTimer);
+        showScore.innerText = `your score ${score} out of ${quiz.length}`;
+       circle.style.background = `conic-gradient(
+        #f7d000 0deg ${score / totalQuestions * 360}deg,
+        #e0e0e0 ${score / totalQuestions * 360}deg 360deg
+)`;
+ let percent = Math.round((score / totalQuestions) * 100);
+    scoreText.innerText = `${percent}%`;
+        questionIndex = 0;
+        backbuttons();
+        toStartPage();
+       stopQuizTimer();
+        
+}
 function startQuizTimer() {
     clearInterval(countdown);     
     fullTime = 5 * 60;         
@@ -229,25 +241,7 @@ function startQuizTimer() {
         fullTime--;
 
         if (fullTime < 0) {
-            timer_over.classList.add('active');
-            fullTimer.classList.remove('active');
-            
-            clearInterval(countdown);
-            
-               quiz_result_page.classList.add('active');
-        startquiz.classList.add('active');
-        clearInterval(fullTimer);
-        showScore.innerText = `your score ${score} out of ${quiz.length}`;
-     circle.style.background = `conic-gradient(
-        #f7d000 0deg ${score / totalQuestions * 360}deg,
-        #e0e0e0 ${score / totalQuestions * 360}deg 360deg
-)`;
- let percent = Math.round((score / totalQuestions) * 100);
-    scoreText.innerText = `${percent}%`;
-        questionIndex = 0;
-        backbuttons();
-        toStartPage();
-       
+           showResult();
     }
      
 
@@ -260,10 +254,16 @@ function stopQuizTimer() {
 }
 function highlightSelectedOption() {
     document.querySelectorAll('.option').forEach(opt => {
-        opt.style.background =
-            (opt.innerText === selectAnswer) ? "red" : "";
+        if (opt.innerText === selectAnswer) {
+            opt.style.background = 'red';
+            opt.style.pointerEvents = 'none'; // optional: prevent change
+        } else {
+            opt.style.background = '';
+            opt.style.pointerEvents = 'auto';
+        }
     });
 }
+
 
 
 
