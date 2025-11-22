@@ -41,7 +41,8 @@ body{
     border-radius: 50%;
     height: 120px;
     width: 120px;
-    padding-left: 20px;
+    padding-left:10px ;
+    text-align: center;
     display: none;
 
 }
@@ -277,13 +278,17 @@ the result css===========================
         text-align: center;
         padding: 2px;        
         font-size: 23px;
-        width: 100%;
+        width: 90%;
     }
     .time_over{
         font-size: 30px;
     }
     .result-head{
         font-size: 30px;
+    }
+    .circle{
+        height: 200px;
+        width: 200px;
     }
 }
 
