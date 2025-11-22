@@ -161,7 +161,7 @@ body{
 }
 
 .buttons .previce-button{
-    background-color: aqua;
+    background-color: blue;
     opacity: 0;
 }
 .buttons .previce-button.active{
@@ -255,19 +255,28 @@ the result css===========================
 
 
 
-@media (max-width: 789px) {
+@media (max-width: 700px) {
     .quiz_container{
         width: 100%;
     }
-    .Quiz_heading{
-        margin-right: 30px;
+    .quiz_container .Quiz_heading{
+    font-size:30px;
+    margin-left: 5px;
+    text-align: left;
     }
     .timer{
         font-size: 24px;
         height: 70px;
         top: -15px;
         width: 70px;
-        
+    }
+    .askQuestions .question-place .question{
+        font-size: 24px;
+    }
+    askQuestions .options span{
+        padding: 0px;
+        font-size: 10px;
+        width: 90%;
     }
 }
 

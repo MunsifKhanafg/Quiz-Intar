@@ -43,6 +43,7 @@ startButton.addEventListener('click', () => {
     hidden_sart_page.classList.add('active');
     startquiz.classList.remove('active');
     fullTimer.classList.add('active');
+    previousButton.classList.remove('active');
     
  startQuizTimer();
 
@@ -51,7 +52,7 @@ startButton.addEventListener('click', () => {
 
 function startQuizTimer() {
     clearInterval(countdown);     
-    fullTime = 5 * 60;           
+    fullTime = 0.1 * 60;           
 
     countdown = setInterval(() => {
 
