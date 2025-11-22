@@ -51,7 +51,7 @@ startButton.addEventListener('click', () => {
 
 function startQuizTimer() {
     clearInterval(countdown);     
-    fullTime = 0.1 * 60;           
+    fullTime = 3 * 60;           
 
     countdown = setInterval(() => {
 
