@@ -196,29 +196,30 @@ the result css===========================
 .circle{
     height: 250px;
     width: 250px;
-    /* background: conic-gradient(
-        #59ff00 0deg 3.6deg,
-        rgba(255,255,255,0.1) 3.6deg 360deg
-    ); */
+    background: conic-gradient(
+       rgba(59,130,246) 0deg var(--angle),
+        rgba(59,130,246,0.2) var(--angle) 360deg
+    );
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-  .incircle{
-    height: 82%;
-    width: 82%;
-    background-color:  rgb(22, 215, 183);
+.incircle{
+    height: 80%;
+    width: 80%;
+    background-color: #e0f2fe;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.percent{
+.scoreText{
     font-size: 40px;
 }
+
 
 .quiz-result .result .score{
     color: white;

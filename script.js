@@ -51,7 +51,7 @@ startButton.addEventListener('click', () => {
 
 function startQuizTimer() {
     clearInterval(countdown);     
-    fullTime = 0.1 * 60;           
+    fullTime = 5 * 60;           
 
     countdown = setInterval(() => {
 
@@ -73,9 +73,9 @@ function startQuizTimer() {
         startquiz.classList.add('active');
         clearInterval(fullTimer);
         showScore.innerText = `your score ${score} out of ${quiz.length}`;
-        circle.style.background = `conic-gradient(
-   rgba(255,255,255,0.1) 0deg ${score / totalQuestions * 360}deg,
-   transparent ${score / totalQuestions * 360}deg 360deg
+     circle.style.background = `conic-gradient(
+        #f7d000 0deg ${score / totalQuestions * 360}deg,
+        #e0e0e0 ${score / totalQuestions * 360}deg 360deg
 )`;
  let percent = Math.round((score / totalQuestions) * 100);
     scoreText.innerText = `${percent}%`;
@@ -151,9 +151,9 @@ nextquestionbtn.addEventListener('click', () => {
         startquiz.classList.add('active');
         clearInterval(fullTimer);
         showScore.innerText = `your score ${score} out of ${quiz.length}`;
-        circle.style.background = `conic-gradient(
-   rgba(100,100,100,0.1) 0deg ${score / totalQuestions * 360}deg,
-   yellow ${score / totalQuestions * 360}deg 360deg
+       circle.style.background = `conic-gradient(
+        #f7d000 0deg ${score / totalQuestions * 360}deg,
+        #e0e0e0 ${score / totalQuestions * 360}deg 360deg
 )`;
  let percent = Math.round((score / totalQuestions) * 100);
     scoreText.innerText = `${percent}%`;
