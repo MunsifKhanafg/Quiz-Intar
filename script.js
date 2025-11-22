@@ -51,7 +51,7 @@ startButton.addEventListener('click', () => {
 
 function startQuizTimer() {
     clearInterval(countdown);     
-    fullTime = 3 * 60;           
+    fullTime = 0.1 * 60;           
 
     countdown = setInterval(() => {
 
@@ -64,8 +64,9 @@ function startQuizTimer() {
         fullTime--;
 
         if (fullTime < 0) {
-
             timer_over.classList.add('active');
+            fullTimer.classList.remove('active');
+            
             clearInterval(countdown);
             
                quiz_result_page.classList.add('active');
@@ -83,7 +84,7 @@ function startQuizTimer() {
         toStartPage();
        
     }
-        timer_over.classList.remove('active'); 
+     
 
     }, 1000);
 }
@@ -101,6 +102,8 @@ function backbuttons() {
         previousButton.classList.remove('active');
         nextquestionbtn.classList.remove('active');
         showQuestionNumber.innerText = `Question ${questionIndex + 1} of ${totalQuestions}`;
+        timer_over.classList.remove('active');
+        fullTimer.classList.add('active');
         startQuizTimer();
        
     })
@@ -110,11 +113,13 @@ function toStartPage() {
     homeButton.addEventListener('click', () => {
          questionIndex = 0;
          nextquestion();
-        
+        timer_over.classList.remove('active');
          score=0;
           hidden_sart_page.classList.remove('active');
          quiz_result_page.classList.remove('active');
-         timer.classList.remove('active');
+         timer_over.classList.remove('active');
+         fullTimer.classList.remove('active');
+         
     })
 }
 
@@ -141,14 +146,14 @@ nextquestionbtn.addEventListener('click', () => {
     
 
     else {
-        timer_over.classList.add('active')
+        // timer_over.classList.a('active')
         quiz_result_page.classList.add('active');
         startquiz.classList.add('active');
         clearInterval(fullTimer);
         showScore.innerText = `your score ${score} out of ${quiz.length}`;
         circle.style.background = `conic-gradient(
-   rgba(255,255,255,0.1) 0deg ${score / totalQuestions * 360}deg,
-   transparent ${score / totalQuestions * 360}deg 360deg
+   rgba(100,100,100,0.1) 0deg ${score / totalQuestions * 360}deg,
+   yellow ${score / totalQuestions * 360}deg 360deg
 )`;
  let percent = Math.round((score / totalQuestions) * 100);
     scoreText.innerText = `${percent}%`;
