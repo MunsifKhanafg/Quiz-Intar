@@ -189,8 +189,8 @@ the result css===========================
     align-items: center;
     text-align: center;
 }
-.quiz-result .result-head{
-    font-size: 28px;
+.result-head{
+    font-size: 40px;
     color:white;
 }
 .circle{
@@ -273,10 +273,17 @@ the result css===========================
     .askQuestions .question-place .question{
         font-size: 24px;
     }
-    askQuestions .options span{
-        padding: 0px;
-        font-size: 10px;
-        width: 90%;
+    .askQuestions .options span{
+        text-align: center;
+        padding: 2px;        
+        font-size: 23px;
+        width: 100%;
+    }
+    .time_over{
+        font-size: 30px;
+    }
+    .result-head{
+        font-size: 30px;
     }
 }
 
