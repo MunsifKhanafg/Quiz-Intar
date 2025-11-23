@@ -73,13 +73,10 @@ nextquestionbtn.addEventListener('click', () => {
 
     // save answer if user clicked one
     if (selectAnswer !== "") {
-        // Only increase score if first time answering this question
-        if (selectAnswer === quiz[questionIndex].answer) {
-            score++;
-        }
-
-        userAnswers[questionIndex] = selectAnswer;
-    }
+    userAnswers[questionIndex] = selectAnswer;
+}
+       
+    
 
     // next question or finish
     if (questionIndex < quiz.length - 1) {
@@ -137,6 +134,7 @@ function nextquestion() {
     if (userAnswers[questionIndex]) {
         selectAnswer = userAnswers[questionIndex];
         highlightSelectedOption();
+        
     } else {
         selectAnswer = ''; // only reset if not answered yet
     }
@@ -210,6 +208,12 @@ function toStartPage() {
     })
 }
 function showResult(){
+     score = 0;
+    userAnswers.forEach((ans, i) => {
+        if (ans === quiz[i].answer) {
+            score++;
+        }
+    });
         quiz_result_page.classList.add('active');
         startquiz.classList.add('active');
         clearInterval(fullTimer);
@@ -243,6 +247,7 @@ function startQuizTimer() {
             timer_over.classList.add('active');
            showResult();
     }
+    
      
 
     }, 1000);
@@ -255,11 +260,14 @@ function stopQuizTimer() {
 function highlightSelectedOption() {
     document.querySelectorAll('.option').forEach(opt => {
         if (opt.innerText === selectAnswer) {
+            score =score;
             opt.style.background = 'red';
             opt.style.pointerEvents = 'none'; // optional: prevent change
+            
         } else {
             opt.style.background = '';
             opt.style.pointerEvents = 'auto';
+            
         }
     });
 }
