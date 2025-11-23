@@ -74,7 +74,7 @@ nextquestionbtn.addEventListener('click', () => {
     // save answer if user clicked one
     if (selectAnswer !== "") {
         // Only increase score if first time answering this question
-        if (!userAnswers[questionIndex] && selectAnswer === quiz[questionIndex].answer) {
+        if (selectAnswer === quiz[questionIndex].answer) {
             score++;
         }
 
@@ -88,6 +88,7 @@ nextquestionbtn.addEventListener('click', () => {
         nextquestion();
         displayPreviousBtn();
     } else {
+        
         showResult(); // your function to display results
     }
 
@@ -180,8 +181,6 @@ function backbuttons() {
          score=0;
          selectAnswer = '';
         userAnswers = [];
-         selectAnswer = '';
-        userAnswers = [];
           nextquestion();
         startquiz.classList.remove('active');
         quiz_result_page.classList.remove('active');
@@ -189,8 +188,8 @@ function backbuttons() {
         previousButton.classList.remove('active');
         nextquestionbtn.classList.remove('active');
         showQuestionNumber.innerText = `Question ${questionIndex + 1} of ${totalQuestions}`;
-        timer_over.classList.remove('active');
         fullTimer.classList.add('active');
+         timer_over.classList.remove('active');
         startQuizTimer();
        
     })
@@ -200,8 +199,9 @@ function toStartPage() {
     homeButton.addEventListener('click', () => {
          questionIndex = 0;
          nextquestion();
-        timer_over.classList.remove('active');
          score=0;
+          selectAnswer = '';
+        userAnswers = [];
           hidden_sart_page.classList.remove('active');
          quiz_result_page.classList.remove('active');
          timer_over.classList.remove('active');
@@ -210,7 +210,6 @@ function toStartPage() {
     })
 }
 function showResult(){
-    fullTimer.classList.remove('active');
         quiz_result_page.classList.add('active');
         startquiz.classList.add('active');
         clearInterval(fullTimer);
@@ -241,6 +240,7 @@ function startQuizTimer() {
         fullTime--;
 
         if (fullTime < 0) {
+            timer_over.classList.add('active');
            showResult();
     }
      
